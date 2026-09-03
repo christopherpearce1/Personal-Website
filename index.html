@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris Pearce — Machine Learning &amp; Full-Stack Developer</title>
+<meta name="description" content="Chris Pearce — machine learning and full-stack engineer. FastAPI backends, self-hosted LLMs, computer vision, and Next.js applications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a09;
+    --raised: #121211;
+    --ink: #ece9e2;
+    --muted: #8b8880;
+    --muted-strong: #cfccc5;
+    --faint: #5d5a54;
+    --line: #222220;
+    --line-soft: #1a1a18;
+    --accent: #d99a5b;
+    --accent-dim: #a8703a;
+
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --display: 'Source Serif 4', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 40px 120px;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  section { scroll-margin-top: 24px; }
+
+  /* ---------- shell with framing rules ---------- */
+  .shell {
+    max-width: 1194px;
+    margin: 0 auto;
+    padding: 0 32px;
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    min-height: 100vh;
+  }
+
+  .inner { padding: 0; }
+
+  /* content sits in a 704px column centred inside the frame, so the
+     section rules span the full frame while the text stays narrow */
+  .hero,
+  section {
+    padding-left: max(0px, calc((100% - 704px) / 2));
+    padding-right: max(0px, calc((100% - 704px) / 2));
+  }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: 72px; padding-bottom: 48px; }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 2.5rem;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  .hero .role {
+    font-size: 1.0625rem;
+    line-height: 1.625;
+    color: var(--muted-strong);
+    margin: 12px 0 0;
+  }
+
+  .hero .lede {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin: 16px 0 0;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.625;
+    color: var(--ink);
+    margin: 24px 0 0;
+  }
+
+  .status .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: transparent;
+    box-shadow: inset 0 0 0 2px var(--bg);
+    flex-shrink: 0;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.33;
+    font-weight: 500;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    height: 32px;
+    padding: 0 12px;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+
+  .btn:hover { border-color: var(--faint); background: var(--raised); }
+
+  .btn.primary {
+    border-color: var(--ink);
+  }
+
+  .btn.primary:hover { background: rgba(255, 255, 255, 0.06); border-color: #fff; }
+
+  .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ---------- sections ---------- */
+  section { padding-top: 44px; padding-bottom: 44px; border-top: 1px solid var(--line); }
+  .hero { scroll-margin-top: 24px; }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.625;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin: 0 0 26px;
+  }
+
+  /* ---------- timeline entries ---------- */
+  .entry {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 36px;
+  }
+  .entry:last-child { margin-bottom: 0; }
+
+  .entry::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--faint);
+  }
+
+  .entry::after {
+    content: "";
+    position: absolute;
+    left: 2.5px;
+    top: 22px;
+    bottom: -30px;
+    width: 1px;
+    background: var(--line);
+  }
+  .entry:last-child::after { display: none; }
+
+  .entry-date {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--muted);
+    letter-spacing: 0.025em;
+    margin-bottom: 6px;
+  }
+
+  .entry-title {
+    font-family: var(--display);
+    font-size: 0.9375rem;
+    line-height: 1.375;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 5px;
+  }
+
+  .entry-title .at { color: var(--muted); font-weight: 400; }
+
+  .entry-sub {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--muted);
+    margin-bottom: 13px;
+  }
+
+  .entry ul {
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 7px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .entry li::before {
+    content: "◦";
+    position: absolute;
+    left: 0;
+    color: var(--faint);
+  }
+
+  .entry-note {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0 0 13px;
+  }
+
+  /* ---------- tags ---------- */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    line-height: 1.625;
+    letter-spacing: 0.025em;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
+
+  .tag.cat {
+    color: var(--accent);
+    border-color: rgba(217, 154, 91, 0.28);
+  }
+
+  .entry-links {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+  }
+
+  .entry-links a {
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .entry-links a:hover { color: var(--accent); border-color: var(--accent-dim); }
+
+  /* ---------- project filter tabs ---------- */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    border-bottom: 1px solid var(--line);
+    margin: -6px 0 24px;
+  }
+
+  .filter {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 8px 4px 12px;
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    line-height: 1.43;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .filter:hover { color: var(--ink); }
+  .filter[aria-pressed="true"] { color: var(--ink); }
+
+  .filter[aria-pressed="true"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--ink);
+  }
+
+  /* ---------- project cards ---------- */
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 6px;
+    margin-bottom: 16px;
+    background: var(--raised);
+  }
+
+  .card:last-child { margin-bottom: 0; }
+  .card[hidden] { display: none; }
+
+  .card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding: 8px 10px;
+  }
+
+  .card-head-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 10px;
+    min-width: 0;
+  }
+
+  .card-title {
+    font-family: var(--display);
+    font-size: 1.0625rem;
+    line-height: 1.375;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  .card-title .at { color: var(--muted); font-weight: 400; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    line-height: 1.625;
+    letter-spacing: 0.025em;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+
+  .chip .cdot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .cdot.fullstack { background: #c58ad8; }
+  .cdot.ai { background: #6cc98b; }
+
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.625;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .card-inner {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--bg);
+  }
+
+  .card-desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+
+  .card-inner ul {
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card-inner li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 7px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .card-inner li:last-child { margin-bottom: 0; }
+
+  .card-inner li strong,
+  .entry li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .card-inner li::before {
+    content: "\2218";
+    position: absolute;
+    left: 0;
+    color: var(--faint);
+  }
+
+  .card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    margin-bottom: 12px;
+  }
+
+  .card-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    color: var(--muted);
+    transition: color 0.15s ease;
+  }
+
+  .card-links a:hover { color: var(--accent); }
+
+  /* ---------- stack ---------- */
+  .stack-card[hidden] { display: none; }
+  .pill[hidden] { display: none; }
+
+  .stack-card {
+    margin-bottom: 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    background: var(--raised);
+  }
+
+  .stack-card h3 {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.625;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin: 0 0 13px;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.625;
+    letter-spacing: 0.025em;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    white-space: nowrap;
+  }
+
+  .ic {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  .tag .ic { width: 11px; height: 11px; }
+
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.625;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+
+  .card-inner {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--bg);
+  }
+
+  .card-desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+
+  .card-inner ul {
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card-inner li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 7px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .card-inner li:last-child { margin-bottom: 0; }
+
+  .card-inner li strong,
+  .entry li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .card-inner li::before {
+    content: "\2218";
+    position: absolute;
+    left: 0;
+    color: var(--faint);
+  }
+
+  .card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    margin-bottom: 12px;
+  }
+
+  .card-links a {
+    color: var(--muted);
+    transition: color 0.15s ease;
+  }
+
+  .card-links a:hover { color: var(--accent); }
+
+  /* ---------- ask an ai ---------- */
+  .ai-intro {
+    color: var(--muted);
+    margin: 0 0 22px;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .ai-intro code {
+    font-family: var(--mono);
+    font-size: 0.82em;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  /* ---------- ai links ---------- */
+  .ai-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 20px;
+    margin-top: 24px;
+  }
+
+  .ai-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 30px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.33;
+    color: var(--muted);
+    text-underline-offset: 4px;
+    transition: color 0.15s ease;
+  }
+
+  .ai-links a:hover { color: var(--ink); text-decoration: underline; }
+
+  .ai-ic { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ---------- contact form ---------- */
+  .contact-form { margin-bottom: 40px; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .field-row .field { margin-bottom: 0; }
+
+  .field label {
+    font-size: 0.875rem;
+    line-height: 1;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    font-family: var(--serif);
+    font-size: 0.875rem;
+    line-height: 1.43;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid #2c2c29;
+    border-radius: 8px;
+    padding: 7px 12px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .field input { height: 36px; }
+
+  .field textarea {
+    min-height: 96px;
+    padding: 12px;
+    resize: vertical;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--faint); }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--muted);
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .form-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .form-status {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .form-status.success { color: #8fc98f; }
+  .form-status.error { color: #e08585; }
+
+  .send-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 16px;
+    font-family: var(--serif);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--ink);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .send-btn:hover { background: #fff; }
+  .send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .send-btn svg { width: 15px; height: 15px; }
+
+  /* ---------- find me on ---------- */
+  .findme-label { margin: 0 0 4px; }
+
+  .findme {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .findme li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fm-key {
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    color: var(--ink);
+  }
+
+  .fm-desc {
+    display: block;
+    font-family: var(--serif);
+    font-size: 0.75rem;
+    line-height: 1.625;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .fm-val {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: right;
+    transition: color 0.15s ease;
+  }
+
+  .fm-val:hover { color: var(--accent); }
+
+  .foot-note {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    color: var(--faint);
+    margin-top: 40px;
+  }
+
+  /* ---------- floating dock ---------- */
+  .dock {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    background: rgba(18, 18, 17, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 7px 8px;
+    z-index: 50;
+  }
+
+  .dock a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 13px;
+    border-radius: 9px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .dock a:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
+  .dock a.accent { color: var(--accent); }
+  .dock a.accent:hover { color: var(--accent); background: rgba(217, 154, 91, 0.1); }
+  .dock svg { width: 16px; height: 16px; }
+
+  /* ---------- reveal on scroll (fade only, never blurred) ---------- */
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  html.js .reveal.shown {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js .reveal { opacity: 1; transform: none; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1080px) {
+    body { padding-left: 20px; padding-right: 20px; }
+    .shell { padding: 0 24px; }
+  }
+
+  @media (max-width: 860px) {
+    body { padding-left: 0; padding-right: 0; }
+    .shell { border-left: none; border-right: none; padding: 0 24px; }
+    .hero, section { padding-left: 0; padding-right: 0; }
+  }
+
+  @media (max-width: 560px) {
+    .shell { padding: 0 20px; }
+    .field input,
+    .field textarea { font-size: 16px; }
+    .field-row { grid-template-columns: 1fr; }
+    .findme li { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .fm-val { text-align: left; }
+    .form-foot { flex-direction: column; align-items: stretch; }
+    .send-btn { justify-content: center; }
+    .hero { padding-top: 56px; padding-bottom: 44px; }
+    .hero h1 { font-size: 2rem; }
+    section { padding-top: 40px; padding-bottom: 40px; }
+    .dock a { padding: 6px 10px; }
+    .card-inner { padding: 14px; }
+    .card-head { padding: 7px 8px; }
+    .filters { gap: 18px; }
+    .filter { font-size: 0.8rem; letter-spacing: 0.16em; }
+    .card-meta { white-space: normal; }
+    body { padding-bottom: 104px; }
+  }
+
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-python" viewBox="0 0 24 24"><path fill="currentColor" d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></symbol><symbol id="i-typescript" viewBox="0 0 24 24"><path fill="currentColor" d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></symbol><symbol id="i-c" viewBox="0 0 24 24"><path fill="currentColor" d="M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.11-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.078 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z"/></symbol><symbol id="i-java" viewBox="0 0 24 24"><path fill="currentColor" d="M11.915 0 11.7.215C9.515 2.4 7.47 6.39 6.046 10.483c-1.064 1.024-3.633 2.81-3.711 3.551-.093.87 1.746 2.611 1.55 3.235-.198.625-1.304 1.408-1.014 1.939.1.188.823.011 1.277-.491a13.389 13.389 0 0 0-.017 2.14c.076.906.27 1.668.643 2.232.372.563.956.911 1.667.911.397 0 .727-.114 1.024-.264.298-.149.571-.33.91-.5.68-.34 1.634-.666 3.53-.604 1.903.062 2.872.39 3.559.704.687.314 1.15.664 1.925.664.767 0 1.395-.336 1.807-.9.412-.563.631-1.33.72-2.24.06-.623.055-1.32 0-2.066.454.45 1.117.604 1.213.424.29-.53-.816-1.314-1.013-1.937-.198-.624 1.642-2.366 1.549-3.236-.08-.748-2.707-2.568-3.748-3.586C16.428 6.374 14.308 2.394 12.13.215zm.175 6.038a2.95 2.95 0 0 1 2.943 2.942 2.95 2.95 0 0 1-2.943 2.943A2.95 2.95 0 0 1 9.148 8.98a2.95 2.95 0 0 1 2.942-2.942zM8.685 7.983a3.515 3.515 0 0 0-.145.997c0 1.951 1.6 3.55 3.55 3.55 1.95 0 3.55-1.598 3.55-3.55 0-.329-.046-.648-.132-.951.334.095.64.208.915.336a42.699 42.699 0 0 1 2.042 5.829c.678 2.545 1.01 4.92.846 6.607-.082.844-.29 1.51-.606 1.94-.315.431-.713.651-1.315.651-.593 0-.932-.27-1.673-.61-.741-.338-1.825-.694-3.792-.758-1.974-.064-3.073.293-3.821.669-.375.188-.659.373-.911.5s-.466.2-.752.2c-.53 0-.876-.209-1.16-.64-.285-.43-.474-1.101-.545-1.948-.141-1.693.176-4.069.823-6.614a43.155 43.155 0 0 1 1.934-5.783c.348-.167.749-.31 1.192-.425zm-3.382 4.362a.216.216 0 0 1 .13.031c-.166.56-.323 1.116-.463 1.665a33.849 33.849 0 0 0-.547 2.555 3.9 3.9 0 0 0-.2-.39c-.58-1.012-.914-1.642-1.16-2.08.315-.24 1.679-1.755 2.24-1.781zm13.394.01c.562.027 1.926 1.543 2.24 1.783-.246.438-.58 1.068-1.16 2.08a4.428 4.428 0 0 0-.163.309 32.354 32.354 0 0 0-.562-2.49 40.579 40.579 0 0 0-.482-1.652.216.216 0 0 1 .127-.03z"/></symbol><symbol id="i-nextjs" viewBox="0 0 24 24"><path fill="currentColor" d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z"/></symbol><symbol id="i-react" viewBox="0 0 24 24"><path fill="currentColor" d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></symbol><symbol id="i-fastapi" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .0387C5.3729.0384.0003 5.3931 0 11.9988c-.001 6.6066 5.372 11.9628 12 11.9625 6.628.0003 12.001-5.3559 12-11.9625-.0003-6.6057-5.3729-11.9604-12-11.96m-.829 5.4153h7.55l-7.5805 5.3284h5.1828L5.279 18.5436q2.9466-6.5444 5.892-13.0896"/></symbol><symbol id="i-django" viewBox="0 0 24 24"><path fill="currentColor" d="M11.146 0h3.924v18.166c-2.013.382-3.491.535-5.096.535-4.791 0-7.288-2.166-7.288-6.32 0-4.002 2.65-6.6 6.753-6.6.637 0 1.121.05 1.707.203zm0 9.143a3.894 3.894 0 00-1.325-.204c-1.988 0-3.134 1.223-3.134 3.365 0 2.09 1.096 3.236 3.109 3.236.433 0 .79-.025 1.35-.102V9.142zM21.314 6.06v9.098c0 3.134-.229 4.638-.917 5.937-.637 1.249-1.478 2.039-3.211 2.905l-3.644-1.733c1.733-.815 2.574-1.53 3.109-2.625.561-1.121.739-2.421.739-5.835V6.059h3.924zM17.39.021h3.924v4.026H17.39z"/></symbol><symbol id="i-nodejs" viewBox="0 0 24 24"><path fill="currentColor" d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/></symbol><symbol id="i-postgresql" viewBox="0 0 24 24"><path fill="currentColor" d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></symbol><symbol id="i-sqlite" viewBox="0 0 24 24"><path fill="currentColor" d="M21.678.521c-1.032-.92-2.28-.55-3.513.544a8.71 8.71 0 0 0-.547.535c-2.109 2.237-4.066 6.38-4.674 9.544.237.48.422 1.093.544 1.561a13.044 13.044 0 0 1 .164.703s-.019-.071-.096-.296l-.05-.146a1.689 1.689 0 0 0-.033-.08c-.138-.32-.518-.995-.686-1.289-.143.423-.27.818-.376 1.176.484.884.778 2.4.778 2.4s-.025-.099-.147-.442c-.107-.303-.644-1.244-.772-1.464-.217.804-.304 1.346-.226 1.478.152.256.296.698.422 1.186.286 1.1.485 2.44.485 2.44l.017.224a22.41 22.41 0 0 0 .056 2.748c.095 1.146.273 2.13.5 2.657l.155-.084c-.334-1.038-.47-2.399-.41-3.967.09-2.398.642-5.29 1.661-8.304 1.723-4.55 4.113-8.201 6.3-9.945-1.993 1.8-4.692 7.63-5.5 9.788-.904 2.416-1.545 4.684-1.931 6.857.666-2.037 2.821-2.912 2.821-2.912s1.057-1.304 2.292-3.166c-.74.169-1.955.458-2.362.629-.6.251-.762.337-.762.337s1.945-1.184 3.613-1.72C21.695 7.9 24.195 2.767 21.678.521m-18.573.543A1.842 1.842 0 0 0 1.27 2.9v16.608a1.84 1.84 0 0 0 1.835 1.834h9.418a22.953 22.953 0 0 1-.052-2.707c-.006-.062-.011-.141-.016-.2a27.01 27.01 0 0 0-.473-2.378c-.121-.47-.275-.898-.369-1.057-.116-.197-.098-.31-.097-.432 0-.12.015-.245.037-.386a9.98 9.98 0 0 1 .234-1.045l.217-.028c-.017-.035-.014-.065-.031-.097l-.041-.381a32.8 32.8 0 0 1 .382-1.194l.2-.019c-.008-.016-.01-.038-.018-.053l-.043-.316c.63-3.28 2.587-7.443 4.8-9.791.066-.069.133-.128.198-.194Z"/></symbol><symbol id="i-pytorch" viewBox="0 0 24 24"><path fill="currentColor" d="M12.005 0L4.952 7.053a9.865 9.865 0 000 14.022 9.866 9.866 0 0014.022 0c3.984-3.9 3.986-10.205.085-14.023l-1.744 1.743c2.904 2.905 2.904 7.634 0 10.538s-7.634 2.904-10.538 0-2.904-7.634 0-10.538l4.647-4.646.582-.665zm3.568 3.899a1.327 1.327 0 00-1.327 1.327 1.327 1.327 0 001.327 1.328A1.327 1.327 0 0016.9 5.226 1.327 1.327 0 0015.573 3.9z"/></symbol><symbol id="i-opencv" viewBox="0 0 24 24"><path fill="currentColor" d="M11.8992.8525C8.735.8525 6.17 3.4175 6.17 6.5817c0 2.102 1.1321 3.9398 2.8198 4.9366l1.6412-2.7849c.0411-.0699.0176-.1593-.0495-.2048-.6233-.4227-1.0328-1.137-1.0328-1.947 0-1.298 1.0524-2.3504 2.3505-2.3504 1.2981 0 2.3505 1.0524 2.3505 2.3505 0 .8098-.4095 1.5242-1.0328 1.947-.0671.0454-.0907.1348-.0495.2047l1.6414 2.785c1.6878-.9969 2.8199-2.8346 2.8199-4.9367 0-3.1642-2.5653-5.7292-5.7295-5.7292zm-6.17 10.8366C2.565 11.6891 0 14.2541 0 17.4183c0 3.1642 2.565 5.7292 5.7292 5.7292 3.1798 0 5.8074-2.6995 5.7275-5.8762H8.2313c-.0847 0-.1513.0717-.1519.1564-.0082 1.266-1.0644 2.3411-2.3502 2.3411-1.2981 0-2.3505-1.0524-2.3505-2.3505 0-1.2982 1.0524-2.3505 2.3505-2.3505.34 0 .663.0724.9547.2022.0713.0318.1566.0077.1962-.0595l1.6464-2.7935c-.8273-.4636-1.7815-.7279-2.7973-.7279zm15.4424.7614l-1.6366 2.7878c-.041.07-.0172.1594.05.2048.624.4217 1.0348 1.1354 1.0363 1.9452.0022 1.298-1.0483 2.352-2.3465 2.3542-1.298.0023-2.3523-1.0482-2.3545-2.3462-.0015-.8098.4068-1.5248 1.0294-1.9486.067-.0457.0905-.1353.0492-.2051l-1.6464-2.7818c-1.6859.9998-2.8146 2.8394-2.811 4.9415.0056 3.1641 2.575 5.7248 5.7393 5.7192 3.1641-.0054 5.7246-2.575 5.7192-5.7392-.0037-2.1022-1.139-3.938-2.8284-4.9318z"/></symbol><symbol id="i-numpy" viewBox="0 0 24 24"><path fill="currentColor" d="M10.315 4.876L6.3048 2.8517l-4.401 2.1965 4.1186 2.0683zm1.8381.9277l4.2045 2.1223-4.3622 2.1906-4.125-2.0718zm5.6153-2.9213l4.3193 2.1658-3.863 1.9402-4.2131-2.1252zm-1.859-.9329L12.021 0 8.1742 1.9193l4.0068 2.0208zm-3.0401 16.7443V24l4.7107-2.3507-.0053-5.3085zm4.7037-4.2057l-.0052-5.2528-4.6985 2.3356v5.2546zm5.6553-.9845v5.327l-4.0178 2.0052-.0029-5.3028zm0-1.8626V6.4214l-4.0253 2.001.0034 5.2633zM11.2062 11.571L8.0333 9.9756v6.895s-3.8804-8.2564-4.2399-8.998c-.0463-.0957-.2371-.2007-.2858-.2262C2.8118 7.2812.773 6.2485.773 6.2485V18.43l2.8204 1.5076v-6.3674s3.8392 7.3775 3.878 7.458c.0389.0807.4245.8582.8362 1.1314.5485.363 2.8992 1.7766 2.8992 1.7766z"/></symbol><symbol id="i-ollama" viewBox="0 0 24 24"><path fill="currentColor" d="M16.361 10.26a.894.894 0 0 0-.558.47l-.072.148.001.207c0 .193.004.217.059.353.076.193.152.312.291.448.24.238.51.3.872.205a.86.86 0 0 0 .517-.436.752.752 0 0 0 .08-.498c-.064-.453-.33-.782-.724-.897a1.06 1.06 0 0 0-.466 0zm-9.203.005c-.305.096-.533.32-.65.639a1.187 1.187 0 0 0-.06.52c.057.309.31.59.598.667.362.095.632.033.872-.205.14-.136.215-.255.291-.448.055-.136.059-.16.059-.353l.001-.207-.072-.148a.894.894 0 0 0-.565-.472 1.02 1.02 0 0 0-.474.007Zm4.184 2c-.131.071-.223.25-.195.383.031.143.157.288.353.407.105.063.112.072.117.136.004.038-.01.146-.029.243-.02.094-.036.194-.036.222.002.074.07.195.143.253.064.052.076.054.255.059.164.005.198.001.264-.03.169-.082.212-.234.15-.525-.052-.243-.042-.28.087-.355.137-.08.281-.219.324-.314a.365.365 0 0 0-.175-.48.394.394 0 0 0-.181-.033c-.126 0-.207.03-.355.124l-.085.053-.053-.032c-.219-.13-.259-.145-.391-.143a.396.396 0 0 0-.193.032zm.39-2.195c-.373.036-.475.05-.654.086-.291.06-.68.195-.951.328-.94.46-1.589 1.226-1.787 2.114-.04.176-.045.234-.045.53 0 .294.005.357.043.524.264 1.16 1.332 2.017 2.714 2.173.3.033 1.596.033 1.896 0 1.11-.125 2.064-.727 2.493-1.571.114-.226.169-.372.22-.602.039-.167.044-.23.044-.523 0-.297-.005-.355-.045-.531-.288-1.29-1.539-2.304-3.072-2.497a6.873 6.873 0 0 0-.855-.031zm.645.937a3.283 3.283 0 0 1 1.44.514c.223.148.537.458.671.662.166.251.26.508.303.82.02.143.01.251-.043.482-.08.345-.332.705-.672.957a3.115 3.115 0 0 1-.689.348c-.382.122-.632.144-1.525.138-.582-.006-.686-.01-.853-.042-.57-.107-1.022-.334-1.35-.68-.264-.28-.385-.535-.45-.946-.03-.192.025-.509.137-.776.136-.326.488-.73.836-.963.403-.269.934-.46 1.422-.512.187-.02.586-.02.773-.002zm-5.503-11a1.653 1.653 0 0 0-.683.298C5.617.74 5.173 1.666 4.985 2.819c-.07.436-.119 1.04-.119 1.503 0 .544.064 1.24.155 1.721.02.107.031.202.023.208a8.12 8.12 0 0 1-.187.152 5.324 5.324 0 0 0-.949 1.02 5.49 5.49 0 0 0-.94 2.339 6.625 6.625 0 0 0-.023 1.357c.091.78.325 1.438.727 2.04l.13.195-.037.064c-.269.452-.498 1.105-.605 1.732-.084.496-.095.629-.095 1.294 0 .67.009.803.088 1.266.095.555.288 1.143.503 1.534.071.128.243.393.264.407.007.003-.014.067-.046.141a7.405 7.405 0 0 0-.548 1.873c-.062.417-.071.552-.071.991 0 .56.031.832.148 1.279L3.42 24h1.478l-.05-.091c-.297-.552-.325-1.575-.068-2.597.117-.472.25-.819.498-1.296l.148-.29v-.177c0-.165-.003-.184-.057-.293a.915.915 0 0 0-.194-.25 1.74 1.74 0 0 1-.385-.543c-.424-.92-.506-2.286-.208-3.451.124-.486.329-.918.544-1.154a.787.787 0 0 0 .223-.531c0-.195-.07-.355-.224-.522a3.136 3.136 0 0 1-.817-1.729c-.14-.96.114-2.005.69-2.834.563-.814 1.353-1.336 2.237-1.475.199-.033.57-.028.776.01.226.04.367.028.512-.041.179-.085.268-.19.374-.431.093-.215.165-.333.36-.576.234-.29.46-.489.822-.729.413-.27.884-.467 1.352-.561.17-.035.25-.04.569-.04.319 0 .398.005.569.04a4.07 4.07 0 0 1 1.914.997c.117.109.398.457.488.602.034.057.095.177.132.267.105.241.195.346.374.43.14.068.286.082.503.045.343-.058.607-.053.943.016 1.144.23 2.14 1.173 2.581 2.437.385 1.108.276 2.267-.296 3.153-.097.15-.193.27-.333.419-.301.322-.301.722-.001 1.053.493.539.801 1.866.708 3.036-.062.772-.26 1.463-.533 1.854a2.096 2.096 0 0 1-.224.258.916.916 0 0 0-.194.25c-.054.109-.057.128-.057.293v.178l.148.29c.248.476.38.823.498 1.295.253 1.008.231 2.01-.059 2.581a.845.845 0 0 0-.044.098c0 .006.329.009.732.009h.73l.02-.074.036-.134c.019-.076.057-.3.088-.516.029-.217.029-1.016 0-1.258-.11-.875-.295-1.57-.597-2.226-.032-.074-.053-.138-.046-.141.008-.005.057-.074.108-.152.376-.569.607-1.284.724-2.228.031-.26.031-1.378 0-1.628-.083-.645-.182-1.082-.348-1.525a6.083 6.083 0 0 0-.329-.7l-.038-.064.131-.194c.402-.604.636-1.262.727-2.04a6.625 6.625 0 0 0-.024-1.358 5.512 5.512 0 0 0-.939-2.339 5.325 5.325 0 0 0-.95-1.02 8.097 8.097 0 0 1-.186-.152.692.692 0 0 1 .023-.208c.208-1.087.201-2.443-.017-3.503-.19-.924-.535-1.658-.98-2.082-.354-.338-.716-.482-1.15-.455-.996.059-1.8 1.205-2.116 3.01a6.805 6.805 0 0 0-.097.726c0 .036-.007.066-.015.066a.96.96 0 0 1-.149-.078A4.857 4.857 0 0 0 12 3.03c-.832 0-1.687.243-2.456.698a.958.958 0 0 1-.148.078c-.008 0-.015-.03-.015-.066a6.71 6.71 0 0 0-.097-.725C8.997 1.392 8.337.319 7.46.048a2.096 2.096 0 0 0-.585-.041Zm.293 1.402c.248.197.523.759.682 1.388.03.113.06.244.069.292.007.047.026.152.041.233.067.365.098.76.102 1.24l.002.475-.12.175-.118.178h-.278c-.324 0-.646.041-.954.124l-.238.06c-.033.007-.038-.003-.057-.144a8.438 8.438 0 0 1 .016-2.323c.124-.788.413-1.501.696-1.711.067-.05.079-.049.157.013zm9.825-.012c.17.126.358.46.498.888.28.854.36 2.028.212 3.145-.019.14-.024.151-.057.144l-.238-.06a3.693 3.693 0 0 0-.954-.124h-.278l-.119-.178-.119-.175.002-.474c.004-.669.066-1.19.214-1.772.157-.623.434-1.185.68-1.382.078-.062.09-.063.159-.012z"/></symbol><symbol id="i-pandas" viewBox="0 0 24 24"><path fill="currentColor" d="M16.922 0h2.623v18.104h-2.623zm-4.126 12.94h2.623v2.57h-2.623zm0-7.037h2.623v5.446h-2.623zm0 11.197h2.623v5.446h-2.623zM4.456 5.896h2.622V24H4.455zm4.213 2.559h2.623v2.57H8.67zm0 4.151h2.623v5.447H8.67zm0-11.187h2.623v5.446H8.67Z"/></symbol><symbol id="i-scikitlearn" viewBox="0 0 24 24"><path fill="currentColor" d="M15.601 5.53c-1.91.035-3.981.91-5.63 2.56-2.93 2.93-2.083 8.53-1.088 9.525.805.804 6.595 1.843 9.526-1.088a9.74 9.74 0 0 0 .584-.643c.043-.292.205-.66.489-1.106a1.848 1.848 0 0 1-.537.176c-.144.265-.37.55-.676.855-.354.335-.607.554-.76.656a.795.795 0 0 1-.437.152c-.35 0-.514-.308-.494-.924-.22.316-.425.549-.612.7a.914.914 0 0 1-.578.224c-.194 0-.36-.09-.496-.273a1.03 1.03 0 0 1-.193-.507 4.016 4.016 0 0 1-.726.583c-.224.132-.47.197-.74.197-.3 0-.543-.096-.727-.288a.978.978 0 0 1-.257-.524v.004c-.3.276-.564.48-.79.611a1.295 1.295 0 0 1-.649.197.693.693 0 0 1-.571-.275c-.145-.183-.218-.43-.218-.739 0-.464.101-1.02.302-1.67.201-.65.445-1.25.733-1.797l.842-.312a.21.21 0 0 1 .06-.013c.063 0 .116.047.157.14.04.095.061.221.061.38 0 .451-.104.888-.312 1.31-.207.422-.532.873-.974 1.352-.018.23-.027.388-.027.474 0 .193.036.345.106.458.071.113.165.169.282.169a.71.71 0 0 0 .382-.13c.132-.084.333-.26.602-.523.028-.418.187-.798.482-1.142.324-.38.685-.569 1.08-.569.206 0 .37.054.494.16a.524.524 0 0 1 .186.417c0 .458-.486.829-1.459 1.114.088.43.32.646.693.646a.807.807 0 0 0 .417-.117c.129-.076.321-.243.575-.497.032-.252.118-.495.259-.728.182-.3.416-.544.701-.73.285-.185.537-.278.756-.278.276 0 .47.127.58.381l.677-.374h.186l-.292.971c-.15.488-.226.823-.226 1.004 0 .19.067.285.202.285.086 0 .181-.045.285-.137.104-.092.25-.232.437-.42v.001c.143-.155.274-.32.392-.494-.19-.084-.285-.21-.285-.375 0-.17.058-.352.174-.545.116-.194.275-.29.479-.29.172 0 .258.088.258.265 0 .139-.05.338-.149.596.367-.04.687-.32.961-.842l.228-.01c1.059-2.438.828-5.075-.83-6.732-1.019-1.02-2.408-1.5-3.895-1.471zm4.725 8.203a8.938 8.938 0 0 1-1.333 2.151 1.09 1.09 0 0 0-.012.147c0 .168.047.309.14.423.092.113.206.17.34.17.296 0 .714-.264 1.254-.787-.001.04-.003.08-.003.121 0 .146.012.368.036.666l.733-.172c0-.2.003-.357.01-.474.01-.157.033-.33.066-.517.02-.11.07-.216.152-.315l.186-.216a5.276 5.276 0 0 1 .378-.397c.062-.055.116-.099.162-.13a.26.26 0 0 1 .123-.046c.055 0 .083.035.083.106 0 .07-.052.236-.156.497-.194.486-.292.848-.292 1.084 0 .175.046.314.136.418a.45.45 0 0 0 .358.155c.365 0 .803-.269 1.313-.808v-.381c-.361.426-.623.64-.784.64-.109 0-.163-.067-.163-.2 0-.1.065-.316.195-.65.19-.486.285-.836.285-1.048a.464.464 0 0 0-.112-.319.36.36 0 0 0-.282-.127c-.165 0-.354.077-.567.233-.213.156-.5.436-.863.84.053-.262.165-.622.335-1.08l-.809.156a6.54 6.54 0 0 0-.399 1.074c-.04.156-.07.316-.092.48a7.447 7.447 0 0 1-.49.45.38.38 0 0 1-.229.08.208.208 0 0 1-.174-.082.352.352 0 0 1-.064-.222c0-.1.019-.214.056-.343.038-.13.12-.373.249-.731l.308-.849zm-17.21-2.927c-.863-.016-1.67.263-2.261.854-1.352 1.352-1.07 3.827.631 5.527 1.7 1.701 4.95 1.21 5.527.632.467-.466 1.07-3.827-.631-5.527-.957-.957-2.158-1.465-3.267-1.486zm12.285.358h.166v.21H15.4zm.427 0h.166v.865l.46-.455h.195l-.364.362.428.684h-.198l-.357-.575-.164.166v.41h-.166zm1.016 0h.166v.21h-.166zm.481.122h.166v.288h.172v.135h-.172v.717c0 .037.006.062.02.075.012.013.037.02.074.02a.23.23 0 0 0 .078-.01v.141a.802.802 0 0 1-.136.014.23.23 0 0 1-.15-.043.15.15 0 0 1-.052-.123v-.79h-.141v-.136h.141zm-3.562.258c.081 0 .15.012.207.038.057.024.1.061.13.11s.045.106.045.173h-.176c-.006-.111-.075-.167-.208-.167a.285.285 0 0 0-.164.041.134.134 0 0 0-.06.117c0 .035.015.065.045.088.03.024.08.044.15.06l.16.039a.47.47 0 0 1 .224.105c.047.046.07.108.07.186a.3.3 0 0 1-.052.175.327.327 0 0 1-.152.116.585.585 0 0 1-.226.041c-.136 0-.24-.03-.309-.088-.069-.059-.105-.149-.109-.269h.176c.004.037.01.065.017.084a.166.166 0 0 0 .034.054c.044.043.112.065.204.065a.31.31 0 0 0 .177-.045.139.139 0 0 0 .067-.119.116.116 0 0 0-.038-.09.287.287 0 0 0-.124-.055l-.156-.038a1.248 1.248 0 0 1-.159-.05.359.359 0 0 1-.098-.061.22.22 0 0 1-.058-.083.32.32 0 0 1-.016-.108c0-.096.036-.174.109-.232a.45.45 0 0 1 .29-.087zm1.035 0a.46.46 0 0 1 .202.043.351.351 0 0 1 .187.212.577.577 0 0 1 .023.126h-.168a.256.256 0 0 0-.078-.168.242.242 0 0 0-.17-.06.248.248 0 0 0-.155.05.306.306 0 0 0-.1.144.662.662 0 0 0-.034.224.58.58 0 0 0 .035.214.299.299 0 0 0 .101.135.261.261 0 0 0 .157.048c.142 0 .227-.084.256-.252h.167a.519.519 0 0 1-.065.22.35.35 0 0 1-.146.138.464.464 0 0 1-.216.048.448.448 0 0 1-.246-.066.441.441 0 0 1-.161-.192.703.703 0 0 1-.057-.293c0-.085.01-.163.032-.233a.522.522 0 0 1 .095-.182.403.403 0 0 1 .15-.117.453.453 0 0 1 .191-.04zm.603.03h.166v1.046H15.4zm1.443 0h.166v1.046h-.166zm-5.05.618c-.08 0-.2.204-.356.611-.155.407-.308.977-.459 1.71.281-.312.509-.662.683-1.05.175-.387.262-.72.262-.999a.455.455 0 0 0-.036-.197c-.025-.05-.056-.075-.093-.075zm4.662 1.797c-.221 0-.431.188-.629.563-.197.376-.296.722-.296 1.038 0 .12.029.216.088.29a.273.273 0 0 0 .223.111c.221 0 .43-.188.625-.565.196-.377.294-.725.294-1.043a.457.457 0 0 0-.083-.29.269.269 0 0 0-.222-.104zm-2.848.007c-.146 0-.285.11-.417.333-.133.222-.2.51-.2.866.566-.159.849-.452.849-.881 0-.212-.077-.318-.232-.318Z"/></symbol><symbol id="i-tensorflow" viewBox="0 0 24 24"><path fill="currentColor" d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zm21.43 5.311l-.014-5.31L12.46 0v24l4.095-2.378V14.87l3.092 1.788-.018-4.618-3.074-1.756V7.603l6.168 3.564z"/></symbol><symbol id="i-pyspark" viewBox="0 0 24 24"><path fill="currentColor" d="M10.812 0c-.425.013-.845.215-1.196.605a3.593 3.593 0 00-.493.722c-.355.667-.425 1.415-.556 2.143a551.9 551.9 0 00-.726 4.087c-.027.16-.096.227-.244.273C5.83 8.386 4.06 8.94 2.3 9.514c-.387.125-.773.289-1.114.506-1.042.665-1.196 1.753-.415 2.71.346.422.79.715 1.284.936 1.1.49 2.202.976 3.3 1.47.019.01.036.013.053.019h-.004l1.306.535c0 .023.002.045 0 .073-.2 2.03-.39 4.063-.58 6.095-.04.419-.012.831.134 1.23.317.87 1.065 1.148 1.881.701.372-.204.666-.497.937-.818 1.372-1.623 2.746-3.244 4.113-4.872.111-.133.205-.15.363-.098.349.117.697.231 1.045.347h.001c.02.012.045.02.073.03l.142.042c1.248.416 2.68.775 3.929 1.19.4.132.622.164 1.045.098.311-.048.592-.062.828-.236.602-.33.995-.957.988-1.682-.005-.427-.154-.813-.35-1.186-.82-1.556-1.637-3.113-2.461-4.666-.078-.148-.076-.243.037-.375 1.381-1.615 2.756-3.236 4.133-4.855.272-.32.513-.658.653-1.058.308-.878-.09-1.57-1-1.741a2.783 2.783 0 00-1.235.069c-1.974.521-3.947 1.041-5.918 1.57-.175.047-.26.015-.355-.144a353.08 353.08 0 00-2.421-4.018 4.61 4.61 0 00-.652-.849c-.371-.37-.802-.549-1.227-.536zm.172 3.703a.592.592 0 01.189.211c.87 1.446 1.742 2.89 2.609 4.338.07.118.135.16.277.121 1.525-.41 3.052-.813 4.579-1.217.367-.098.735-.193 1.103-.289a.399.399 0 01-.1.2c-1.259 1.48-2.516 2.962-3.779 4.438-.11.13-.12.22-.04.37.937 1.803 1.768 3.309 2.498 4.76l-3.696-1.019c-.538-.18-1.077-.358-1.615-.539-.163-.055-.25-.03-.36.1-1.248 1.488-2.504 2.97-3.759 4.454a.398.398 0 01-.18.132c.035-.378.068-.757.104-1.136.149-1.572.297-3.144.451-4.716-.03-.318.117-.405-.322-.545-1.493-.593-3.346-1.321-4.816-1.905a.595.595 0 01.24-.134c1.797-.57 3.595-1.14 5.394-1.705.127-.04.199-.092.211-.233.013-.148.05-.294.076-.441.241-1.363.483-2.726.726-4.088.068-.386.14-.771.21-1.157z"/></symbol><symbol id="i-googleadk" viewBox="0 0 24 24"><path fill="currentColor" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></symbol><symbol id="i-docker" viewBox="0 0 24 24"><path fill="currentColor" d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></symbol><symbol id="i-git" viewBox="0 0 24 24"><path fill="currentColor" d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></symbol><symbol id="i-jupyter" viewBox="0 0 24 24"><path fill="currentColor" d="M7.157 22.201A1.784 1.799 0 0 1 5.374 24a1.784 1.799 0 0 1-1.784-1.799 1.784 1.799 0 0 1 1.784-1.799 1.784 1.799 0 0 1 1.783 1.799zM20.582 1.427a1.415 1.427 0 0 1-1.415 1.428 1.415 1.427 0 0 1-1.416-1.428A1.415 1.427 0 0 1 19.167 0a1.415 1.427 0 0 1 1.415 1.427zM4.992 3.336A1.047 1.056 0 0 1 3.946 4.39a1.047 1.056 0 0 1-1.047-1.055A1.047 1.056 0 0 1 3.946 2.28a1.047 1.056 0 0 1 1.046 1.056zm7.336 1.517c3.769 0 7.06 1.38 8.768 3.424a9.363 9.363 0 0 0-3.393-4.547 9.238 9.238 0 0 0-5.377-1.728A9.238 9.238 0 0 0 6.95 3.73a9.363 9.363 0 0 0-3.394 4.547c1.713-2.04 5.004-3.424 8.772-3.424zm.001 13.295c-3.768 0-7.06-1.381-8.768-3.425a9.363 9.363 0 0 0 3.394 4.547A9.238 9.238 0 0 0 12.33 21a9.238 9.238 0 0 0 5.377-1.729 9.363 9.363 0 0 0 3.393-4.547c-1.712 2.044-5.003 3.425-8.772 3.425Z"/></symbol><symbol id="i-bash" viewBox="0 0 24 24"><path fill="currentColor" d="M21.038,4.9l-7.577-4.498C13.009,0.134,12.505,0,12,0c-0.505,0-1.009,0.134-1.462,0.403L2.961,4.9 C2.057,5.437,1.5,6.429,1.5,7.503v8.995c0,1.073,0.557,2.066,1.462,2.603l7.577,4.497C10.991,23.866,11.495,24,12,24 c0.505,0,1.009-0.134,1.461-0.402l7.577-4.497c0.904-0.537,1.462-1.529,1.462-2.603V7.503C22.5,6.429,21.943,5.437,21.038,4.9z M15.17,18.946l0.013,0.646c0.001,0.078-0.05,0.167-0.111,0.198l-0.383,0.22c-0.061,0.031-0.111-0.007-0.112-0.085L14.57,19.29 c-0.328,0.136-0.66,0.169-0.872,0.084c-0.04-0.016-0.057-0.075-0.041-0.142l0.139-0.584c0.011-0.046,0.036-0.092,0.069-0.121 c0.012-0.011,0.024-0.02,0.036-0.026c0.022-0.011,0.043-0.014,0.062-0.006c0.229,0.077,0.521,0.041,0.802-0.101 c0.357-0.181,0.596-0.545,0.592-0.907c-0.003-0.328-0.181-0.465-0.613-0.468c-0.55,0.001-1.064-0.107-1.072-0.917 c-0.007-0.667,0.34-1.361,0.889-1.8l-0.007-0.652c-0.001-0.08,0.048-0.168,0.111-0.2l0.37-0.236 c0.061-0.031,0.111,0.007,0.112,0.087l0.006,0.653c0.273-0.109,0.511-0.138,0.726-0.088c0.047,0.012,0.067,0.076,0.048,0.151 l-0.144,0.578c-0.011,0.044-0.036,0.088-0.065,0.116c-0.012,0.012-0.025,0.021-0.038,0.028c-0.019,0.01-0.038,0.013-0.057,0.009 c-0.098-0.022-0.332-0.073-0.699,0.113c-0.385,0.195-0.52,0.53-0.517,0.778c0.003,0.297,0.155,0.387,0.681,0.396 c0.7,0.012,1.003,0.318,1.01,1.023C16.105,17.747,15.736,18.491,15.17,18.946z M19.143,17.859c0,0.06-0.008,0.116-0.058,0.145 l-1.916,1.164c-0.05,0.029-0.09,0.004-0.09-0.056v-0.494c0-0.06,0.037-0.093,0.087-0.122l1.887-1.129 c0.05-0.029,0.09-0.004,0.09,0.056V17.859z M20.459,6.797l-7.168,4.427c-0.894,0.523-1.553,1.109-1.553,2.187v8.833 c0,0.645,0.26,1.063,0.66,1.184c-0.131,0.023-0.264,0.039-0.398,0.039c-0.42,0-0.833-0.114-1.197-0.33L3.226,18.64 c-0.741-0.44-1.201-1.261-1.201-2.142V7.503c0-0.881,0.46-1.702,1.201-2.142l7.577-4.498c0.363-0.216,0.777-0.33,1.197-0.33 c0.419,0,0.833,0.114,1.197,0.33l7.577,4.498c0.624,0.371,1.046,1.013,1.164,1.732C21.686,6.557,21.12,6.411,20.459,6.797z"/></symbol><symbol id="i-cloudrun" viewBox="0 0 24 24"><path fill="currentColor" d="M12.19 2.38a9.344 9.344 0 0 0-9.234 6.893c.053-.02-.055.013 0 0-3.875 2.551-3.922 8.11-.247 10.941l.006-.007-.007.03a6.717 6.717 0 0 0 4.077 1.356h5.173l.03.03h5.192c6.687.053 9.376-8.605 3.835-12.35a9.365 9.365 0 0 0-2.821-4.552l-.043.043.006-.05A9.344 9.344 0 0 0 12.19 2.38zm-.358 4.146c1.244-.04 2.518.368 3.486 1.15a5.186 5.186 0 0 1 1.862 4.078v.518c3.53-.07 3.53 5.262 0 5.193h-5.193l-.008.009v-.04H6.785a2.59 2.59 0 0 1-1.067-.23h.001a2.597 2.597 0 1 1 3.437-3.437l3.013-3.012A6.747 6.747 0 0 0 8.11 8.24c.018-.01.04-.026.054-.023a5.186 5.186 0 0 1 3.67-1.69z"/></symbol><symbol id="i-claude" viewBox="0 0 24 24"><path fill="currentColor" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></symbol><symbol id="i-perplexity" viewBox="0 0 24 24"><path fill="currentColor" d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></symbol></svg>
+
+
+<div class="shell">
+  <div class="inner">
+
+    <!-- ================= HERO ================= -->
+    <header class="hero" id="home">
+      <h1>Chris Pearce</h1>
+      <div class="role">Machine Learning &amp; Full-Stack Developer</div>
+      <p class="lede">
+        I build backends and the machine learning that runs inside them. Most of my time goes to
+        Python, FastAPI, and engineering predictable language models.
+      </p>
+
+      <div class="status">
+        <span class="dot"></span>
+        Open to full-time roles
+      </div>
+
+      <div class="btn-row">
+        <a class="btn" href="https://github.com/christopherpearce1" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+          GitHub
+        </a>
+        <a class="btn" href="https://linkedin.com/in/chris-pearce-" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12H3v-12zM10 8.98h3.8v1.64h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76v6.55h-4v-5.8c0-1.39-.03-3.17-2-3.17-2 0-2.31 1.51-2.31 3.07v5.9h-4v-12z"/></svg>
+          LinkedIn
+        </a>
+        <a class="btn" href="./Chris_Pearce_Resume.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+          Resume
+        </a>
+        <a class="btn primary" href="#ask-ai">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          AI Assistant
+        </a>
+      </div>
+    </header>
+
+    <!-- ================= WORK / PROJECTS ================= -->
+    <section id="work" class="reveal">
+      <p class="label">Selected Work</p>
+
+      <div class="filters" role="group" aria-label="Filter work by discipline">
+        <button class="filter" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter" data-filter="fullstack" aria-pressed="false">Full Stack</button>
+        <button class="filter" data-filter="ai" aria-pressed="false">AI</button>
+      </div>
+
+      <div class="stack-card" id="stack">
+        <h3>Stack</h3>
+        <div class="pills">
+          <span class="pill" data-cats="fullstack ai"><svg class="ic" style="color:#3776AB" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#3178C6" aria-hidden="true"><use href="#i-typescript"></use></svg>TypeScript</span>
+          <span class="pill" data-cats="fullstack">SQL</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-c"></use></svg>C++</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-java"></use></svg>Java</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-nextjs"></use></svg>Next.js</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#61DAFB" aria-hidden="true"><use href="#i-react"></use></svg>React</span>
+          <span class="pill" data-cats="fullstack ai"><svg class="ic" style="color:#009688" aria-hidden="true"><use href="#i-fastapi"></use></svg>FastAPI</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-django"></use></svg>Django</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"></use></svg>PostgreSQL</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-sqlite"></use></svg>SQLite</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#5FA04E" aria-hidden="true"><use href="#i-nodejs"></use></svg>Node.js</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#EE4C2C" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-opencv"></use></svg>OpenCV</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-numpy"></use></svg>NumPy</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-ollama"></use></svg>Ollama</span>
+          <span class="pill" data-cats="ai">vLLM</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-pandas"></use></svg>Pandas</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#F7931E" aria-hidden="true"><use href="#i-scikitlearn"></use></svg>scikit-learn</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#FF6F00" aria-hidden="true"><use href="#i-tensorflow"></use></svg>TensorFlow</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#E25A1C" aria-hidden="true"><use href="#i-pyspark"></use></svg>PySpark</span>
+          <span class="pill" data-cats="ai">OpenAI API</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#4285F4" aria-hidden="true"><use href="#i-googleadk"></use></svg>Google ADK</span>
+          <span class="pill" data-cats="fullstack ai"><svg class="ic" style="color:#2496ED" aria-hidden="true"><use href="#i-docker"></use></svg>Docker</span>
+          <span class="pill" data-cats="fullstack ai"><svg class="ic" style="color:#F03C2E" aria-hidden="true"><use href="#i-git"></use></svg>Git</span>
+          <span class="pill" data-cats="ai">ThunderCompute</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#F37626" aria-hidden="true"><use href="#i-jupyter"></use></svg>Jupyter</span>
+          <span class="pill" data-cats="fullstack ai"><svg class="ic" style="color:#4EAA25" aria-hidden="true"><use href="#i-bash"></use></svg>Bash</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#4285F4" aria-hidden="true"><use href="#i-cloudrun"></use></svg>Cloud Run</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#4285F4" aria-hidden="true"><use href="#i-cloudrun"></use></svg>Cloud Build</span>
+          <span class="pill" data-cats="fullstack"><svg class="ic" style="color:#4285F4" aria-hidden="true"><use href="#i-cloudrun"></use></svg>Cloud Storage</span>
+          <span class="pill" data-cats="ai"><svg class="ic" style="color:#4285F4" aria-hidden="true"><use href="#i-cloudrun"></use></svg>Vertex AI</span>
+        </div>
+      </div>
+
+
+      <div id="project-list">
+
+        <article class="card project" data-cats="fullstack ai">
+          <div class="card-head">
+            <div class="card-head-main">
+              <h3 class="card-title">Consumer Application <span class="at">(Early Stage)</span></h3>
+              <span class="chip"><span class="cdot fullstack"></span>Full Stack</span>
+              <span class="chip"><span class="cdot ai"></span>AI</span>
+            </div>
+            <div class="card-meta">May 2026 — Present · Founding Engineer, Contract</div>
+          </div>
+          <div class="card-inner">
+            <p class="card-desc">I own the backend and the LLM work on a small consumer app, from requirements through validation.</p>
+            <ul>
+              <li><strong>Backend architecture:</strong> Built the FastAPI backend around a rules-based proposal engine with deterministic keyword routing, automating group coordination and information sharing, plus a single-page frontend covering four functional modules.</li>
+              <li><strong>AI safety:</strong> Implemented backend integration points for a layered safety system, combining deterministic output filtering with asynchronous response review before anything reaches a user.</li>
+              <li><strong>Model serving:</strong> Self-hosted LLMs locally through Ollama and remotely through vLLM on ThunderCompute, comparing the two to decide what powers document processing and translation, a tool-assisted chatbot, and a hierarchical multi-agent system.</li>
+              <li><strong>Scope ownership:</strong> Worked directly with the product owner from requirements through validation, owning backend scope and acceptance criteria on a compressed timeline.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag"><svg class="ic" style="color:#3776AB" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
+              <span class="tag"><svg class="ic" style="color:#009688" aria-hidden="true"><use href="#i-fastapi"></use></svg>FastAPI</span>
+              <span class="tag"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-ollama"></use></svg>Ollama</span>
+              <span class="tag">vLLM</span>
+              <span class="tag">Multi-Agent Systems</span>
+              <span class="tag">LLM Guardrails</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card project" data-cats="ai">
+          <div class="card-head">
+            <div class="card-head-main">
+              <h3 class="card-title">Rice Strain CNN Classifier</h3>
+              <span class="chip"><span class="cdot ai"></span>AI</span>
+            </div>
+            <div class="card-meta">Jan 2026 — Mar 2026 · University Project</div>
+          </div>
+          <div class="card-inner">
+            <p class="card-desc">Classifying five rice varieties from images, plus the detection pipeline that finds the grains in the first place.</p>
+            <ul>
+              <li><strong>Model comparison:</strong> Built and evaluated a CNN against a linear neural network to identify 5 rice grain varieties across a 75,000-image dataset.</li>
+              <li><strong>Results:</strong> Reached roughly 97 to 98% accuracy with the convolutional network.</li>
+              <li><strong>ML pipeline:</strong> Handled the whole path end to end, from preprocessing with grayscale conversion, resizing and normalization, through architecture design, to training with SGD and cross-entropy loss.</li>
+              <li><strong>Object detection:</strong> Built an OpenCV pipeline with thresholding, contour detection, and bounding boxes so the classifier works on ordinary photographs, not just clean dataset images.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag"><svg class="ic" style="color:#EE4C2C" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch</span>
+              <span class="tag">CNN</span>
+              <span class="tag"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-opencv"></use></svg>OpenCV</span>
+              <span class="tag">Computer Vision</span>
+              <span class="tag"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-numpy"></use></svg>NumPy</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card project" data-cats="fullstack">
+          <div class="card-head">
+            <div class="card-head-main">
+              <h3 class="card-title">SCU Marketplace Web App</h3>
+              <span class="chip"><span class="cdot fullstack"></span>Full Stack</span>
+            </div>
+            <div class="card-meta">Sep 2025 — Dec 2025 · University Project</div>
+          </div>
+          <div class="card-inner">
+            <p class="card-desc">A marketplace where Santa Clara students post and browse used items, along the lines of Facebook Marketplace.</p>
+            <ul>
+              <li><strong>Accounts and verification:</strong> Students create password-protected accounts holding contact information, location, and SCU ID verification.</li>
+              <li><strong>Frontend:</strong> Next.js with dynamic page navigation that holds up on mobile layouts.</li>
+              <li><strong>Backend:</strong> Django handling CRUD operations on SQLite, API routing, and request validation.</li>
+            </ul>
+            <div class="card-links">
+              <a href="https://github.com/christopherpearce1/SCU-Marrketplace" target="_blank" rel="noopener">Repository ↗</a>
+            </div>
+            <div class="tags">
+              <span class="tag"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-nextjs"></use></svg>Next.js</span>
+              <span class="tag"><svg class="ic" style="color:#61DAFB" aria-hidden="true"><use href="#i-react"></use></svg>React</span>
+              <span class="tag"><svg class="ic" style="color:#3178C6" aria-hidden="true"><use href="#i-typescript"></use></svg>TypeScript</span>
+              <span class="tag"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-django"></use></svg>Django</span>
+              <span class="tag"><svg class="ic" style="color:#e6e3dc" aria-hidden="true"><use href="#i-sqlite"></use></svg>SQLite</span>
+              <span class="tag">REST APIs</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card project" data-cats="ai">
+          <div class="card-head">
+            <div class="card-head-main">
+              <h3 class="card-title">Email Outreach Automation Bot</h3>
+              <span class="chip"><span class="cdot ai"></span>AI</span>
+            </div>
+            <div class="card-meta">Aug 2024 — Oct 2024 · Personal Project</div>
+          </div>
+          <div class="card-inner">
+            <p class="card-desc">Outreach agents that write and send personalized email at volume without sounding like a mail merge.</p>
+            <ul>
+              <li><strong>Agent design:</strong> Designed AI-assisted outreach agents on the OpenAI API, with Zapier handling orchestration between steps.</li>
+              <li><strong>Prompt engineering:</strong> Built adaptive templates that shift tone and content based on recipient data, so volume did not flatten into a mail merge.</li>
+              <li><strong>Automation:</strong> Coordinated task flows across connected APIs so scheduling ran unattended.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">OpenAI API</span>
+              <span class="tag">Zapier</span>
+              <span class="tag">Agentic AI</span>
+              <span class="tag">Prompt Engineering</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <section id="experience" class="reveal">
+      <p class="label">Experience</p>
+
+      <div class="entry">
+        <div class="entry-date">Aug 2023 — Mar 2026</div>
+        <h2 class="entry-title">IT &amp; AV Support Assistant <span class="at">at Santa Clara University Media Services</span></h2>
+        <div class="entry-sub">Santa Clara, CA</div>
+        <ul>
+          <li><strong>Frontline support:</strong> First point of contact for faculty, staff, and students across 100+ classrooms, fixing projector, display, audio-input, and connectivity problems in person and over the phone.</li>
+          <li><strong>Device management:</strong> Maintained, reimaged, and provisioned checked-out Windows and macOS laptops and DSLR cameras, handling updates, licensing, and version management.</li>
+          <li><strong>Balancing act:</strong> Ran about 16 hours a week during term and 40 over the summer alongside a full course load.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Windows</span>
+          <span class="tag">macOS</span>
+          <span class="tag">Hardware Support</span>
+          <span class="tag">Troubleshooting</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EDUCATION ================= -->
+    <section id="education" class="reveal">
+      <p class="label">Education</p>
+
+      <div class="entry">
+        <div class="entry-date">Sep 2022 — Mar 2026</div>
+        <h2 class="entry-title">B.S. Computer Science <span class="at">at Santa Clara University</span></h2>
+        <div class="entry-sub">Emphasis in Data Science · Santa Clara, CA</div>
+        <p class="entry-note">Coursework in data engineering, data science, and machine learning, with most of my project work landing on the applied side.</p>
+        <div class="tags">
+          <span class="tag">Data Engineering</span>
+          <span class="tag">Data Science</span>
+          <span class="tag">Machine Learning</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= AREAS OF FOCUS ================= -->
+    <section id="focus" class="reveal">
+      <p class="label">Areas of Focus</p>
+      <div class="pills">
+        <span class="pill" data-cats="ai">Computer Vision</span>
+        <span class="pill" data-cats="ai">Deep Learning</span>
+        <span class="pill" data-cats="ai">Neural Networks</span>
+        <span class="pill" data-cats="ai">CNNs</span>
+        <span class="pill" data-cats="ai">Image Processing</span>
+        <span class="pill" data-cats="ai">Time Series Analysis</span>
+        <span class="pill" data-cats="ai">LLMs</span>
+        <span class="pill" data-cats="ai">Agentic AI</span>
+        <span class="pill" data-cats="ai">Multi-Agent Systems</span>
+        <span class="pill" data-cats="ai">RAG</span>
+        <span class="pill" data-cats="ai">RAG Agents</span>
+        <span class="pill" data-cats="ai">Prompt Engineering</span>
+        <span class="pill" data-cats="ai">LLM Guardrails</span>
+        <span class="pill" data-cats="fullstack">REST APIs</span>
+        <span class="pill" data-cats="fullstack ai">Data Pipelines (ETL)</span>
+        <span class="pill" data-cats="fullstack">CI/CD</span>
+      </div>
+    </section>
+
+    <!-- ================= ASK AN AI ================= -->
+    <section id="ask-ai" class="reveal">
+      <p class="label">AI Assistant</p>
+      <p class="ai-intro">
+        An assistant that answers questions about my work directly on this page is in progress.
+        Until it ships, everything here is published as plain text at <code>/llms.txt</code>, so the
+        answers come from what I actually wrote, not from whatever a model happens to recall about
+        someone with my name.
+      </p>
+      <div class="ai-links">
+        <a href="https://chatgpt.com/?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
+          <svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          ChatGPT
+        </a>
+        <a href="https://claude.ai/new?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
+          <svg class="ai-ic" style="color:#D97757" aria-hidden="true"><use href="#i-claude"></use></svg>
+          Claude
+        </a>
+        <a href="https://www.perplexity.ai/search/new?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
+          <svg class="ai-ic" style="color:#1FB8CD" aria-hidden="true"><use href="#i-perplexity"></use></svg>
+          Perplexity
+        </a>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="reveal">
+      <p class="label">Get in touch.</p>
+
+      <!-- Sends via Formspree (free tier). Confirm the first submission from the email
+           Formspree sends after setup — the form stays inactive until you do. -->
+      <form id="contact-form" class="contact-form" action="https://formspree.io/f/xbgjyvrz" method="POST">
+        <div class="field-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@domain.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="What are you working on?" required></textarea>
+        </div>
+
+        <div class="field hp-field" aria-hidden="true">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form-foot">
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          <button type="submit" class="send-btn">
+            Send
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <p class="label findme-label">Find me on</p>
+      <ul class="findme">
+        <li>
+          <div class="fm-key">email<span class="fm-desc">Best way to reach me directly.</span></div>
+          <a class="fm-val" href="mailto:christopher.l.pearce@gmail.com">christopher.l.pearce@gmail.com</a>
+        </li>
+        <li>
+          <div class="fm-key">linkedin<span class="fm-desc">Work history and the occasional post.</span></div>
+          <a class="fm-val" href="https://linkedin.com/in/chris-pearce-" target="_blank" rel="noopener">in/chris-pearce- ↗</a>
+        </li>
+        <li>
+          <div class="fm-key">github<span class="fm-desc">Source for the projects above.</span></div>
+          <a class="fm-val" href="https://github.com/christopherpearce1" target="_blank" rel="noopener">christopherpearce1 ↗</a>
+        </li>
+      </ul>
+
+      <div class="foot-note">© 2026 Chris Pearce</div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ================= DOCK ================= -->
+<nav class="dock" aria-label="Section navigation">
+  <a href="#home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg>
+    Home
+  </a>
+  <a href="#work">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+    Work
+  </a>
+  <a href="#contact">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+    Contact
+  </a>
+  <a href="#ask-ai" class="accent">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01"/></svg>
+    Assistant
+  </a>
+</nav>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  /* ---- reveal on scroll: fade in, then stay put (no blur, ever) ---- */
+  (function () {
+    const items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('shown'); });
+      return;
+    }
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('shown');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    items.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ---- project filters ---- */
+  (function () {
+    const buttons = document.querySelectorAll('.filter');
+    const projects = document.querySelectorAll('.project');
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const filter = btn.dataset.filter;
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+        const matches = function (el) {
+          const cats = (el.dataset.cats || '').split(' ');
+          return filter === 'all' || cats.indexOf(filter) !== -1;
+        };
+
+        projects.forEach(function (p) { p.hidden = !matches(p); });
+
+        // filter the stack pills (Areas of Focus is its own section and always shows in full)
+        document.querySelectorAll('#stack .pill').forEach(function (pill) {
+          pill.hidden = !matches(pill);
+        });
+      });
+    });
+  })();
+
+  /* ---- contact form ---- */
+  (function () {
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (form.company.value) return;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      status.textContent = 'Sending…';
+      status.className = 'form-status';
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          status.textContent = "Sent. I'll get back to you soon.";
+          status.classList.add('success');
+        } else {
+          const data = await res.json().catch(function () { return null; });
+          const msg = data && data.errors ? data.errors.map(function (x) { return x.message; }).join(', ') : null;
+          status.textContent = msg || 'That did not send. Email me directly instead.';
+          status.classList.add('error');
+        }
+      } catch (err) {
+        status.textContent = 'That did not send. Email me directly instead.';
+        status.classList.add('error');
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
