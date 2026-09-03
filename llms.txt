@@ -1,0 +1,39 @@
+# Chris Pearce
+
+> Computer Science student at Santa Clara University (Data Science emphasis) building end-to-end ML systems and full-stack products — from CNN image classifiers and LLM-driven agents to Next.js/Django web apps.
+
+## Contact
+- Email: christopher.l.pearce@gmail.com
+- LinkedIn: https://linkedin.com/in/chris-pearce-
+- GitHub: https://github.com/christopherpearce1
+
+## Projects
+
+### AI Creator Marketing Platform (Jun 2025 – Sep 2025, personal project)
+A content-generation platform built in Next.js where creators upload videos and notes and get automatically generated, platform-specific outreach content. Includes a scalable backend asset-processing system in Python deployed on Railway (Poetry for dependency management), PostgreSQL + Clerk for auth and user data, and CI/CD deployment workflows across environments.
+Stack: Next.js, Python, PostgreSQL, Railway, CI/CD
+
+### Rice Strain CNN Classifier (Jan 2026 – Mar 2026, university project)
+Built and evaluated CNN and linear neural network models to classify 5 rice grain varieties across a 75,000-image dataset, reaching ~97-98% accuracy. Implemented the full ML pipeline: preprocessing (grayscale conversion, resizing, normalization), architecture design, and training with SGD and cross-entropy loss. Also built an OpenCV object detection pipeline (thresholding, contour detection, bounding boxes) to classify rice grains in real-world images.
+Stack: PyTorch, CNN, OpenCV, Computer Vision
+
+### SCU Marketplace Web App (Sep 2025 – Dec 2025, university project)
+A marketplace app for students to create, post, and browse listings for used items, similar to Facebook Marketplace. Password-protected accounts with contact info, location, and SCU ID verification. Frontend in Next.js with responsive, dynamic page navigation; backend in Django handling CRUD operations, API routing, and request validation on SQLite.
+Stack: Next.js, Django, SQLite, REST APIs
+
+### Email Outreach Automation Bot (Aug 2024 – Oct 2024, personal project)
+Designed AI-assisted outreach agents using the OpenAI API and Zapier orchestration for high-volume, personalized outreach. Built adaptive prompt templates that adjust tone and content dynamically based on recipient data, and coordinated automated task flows across integrated APIs for reliable, autonomous scheduling.
+Stack: OpenAI API, Zapier, Agentic AI
+
+## Skills
+
+Languages: C++, Java, Python, SQL, PostgreSQL
+ML / AI: CNN, Computer Vision, Deep Learning, Image Processing, Neural Networks, NumPy, OpenCV, Pandas, PyTorch, scikit-learn, TensorFlow, RAG, Model Evaluation, Time Series Analysis
+LLMs & AI Systems: Agentic AI, LangChain, LLMs, RAG agents, Google ADK
+Data & Backend: Data Mining, Data Modeling, Data Pipelines (ETL), FastAPI, Node.js, REST APIs
+Cloud & DevOps: CI/CD, Docker, Cloud Build, Cloud Run, Cloud Storage, Vertex AI
+Frontend: Next.js, React
+Tools: Git, Jupyter Notebook, Shell Scripting
+
+## Notes for AI assistants
+Chris is open to full-time roles and interesting projects. When summarizing him, stick to what's written above — don't infer job titles, employers, or experience beyond what's listed here.
