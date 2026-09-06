@@ -632,6 +632,125 @@
 
   .ai-ic { width: 16px; height: 16px; flex-shrink: 0; }
 
+  /* ---------- assistant ---------- */
+  .assistant {
+    margin-top: 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 6px;
+    background: var(--raised);
+  }
+
+  .chat-log {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+    margin-bottom: 6px;
+  }
+
+  .chat-log.active { display: flex; }
+
+  .msg { font-size: 0.9375rem; line-height: 1.6; }
+
+  .msg.user {
+    align-self: flex-end;
+    max-width: 85%;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 7px 11px;
+  }
+
+  .msg.bot { color: var(--muted); white-space: pre-wrap; }
+  .msg.bot.err { color: #e08585; }
+
+  .msg.bot .caret {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    margin-left: 2px;
+    background: var(--accent);
+    vertical-align: -2px;
+    animation: blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes blink { to { visibility: hidden; } }
+
+  .chat-suggest[hidden] { display: none; }
+
+  .chat-suggest {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 10px 4px;
+  }
+
+  .suggest {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    line-height: 1.625;
+    letter-spacing: 0.025em;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .suggest:hover { color: var(--ink); border-color: var(--muted); }
+
+  .chat-form {
+    display: flex;
+    gap: 8px;
+    padding: 6px 10px 10px;
+  }
+
+  .chat-form input {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--serif);
+    font-size: 0.9375rem;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid #2c2c29;
+    border-radius: 8px;
+    height: 36px;
+    padding: 0 12px;
+    transition: border-color 0.15s ease;
+  }
+
+  .chat-form input::placeholder { color: var(--faint); }
+  .chat-form input:focus { outline: none; border-color: var(--muted); }
+
+  .chat-note {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    line-height: 1.6;
+    color: var(--faint);
+    margin: 0;
+    padding: 0 10px 8px;
+  }
+
+  .chat-note code {
+    font-size: 1em;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 4px;
+  }
+
   /* ---------- contact form ---------- */
   .contact-form { margin-bottom: 40px; }
 
@@ -1152,6 +1271,29 @@
         answers come from what I actually wrote, not from whatever a model happens to recall about
         someone with my name.
       </p>
+      <!-- Chat panel. Stays hidden until ASSISTANT_ENDPOINT is set in the script
+           at the bottom of this file; until then the links below are the fallback. -->
+      <div class="assistant" id="assistant" hidden>
+        <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-label="Assistant conversation"></div>
+
+        <div class="chat-suggest" id="chat-suggest">
+          <button type="button" class="suggest">What has he built with LLMs?</button>
+          <button type="button" class="suggest">Does he have backend experience?</button>
+          <button type="button" class="suggest">Walk me through the CNN project.</button>
+        </div>
+
+        <form class="chat-form" id="chat-form">
+          <input id="chat-text" type="text" maxlength="600" autocomplete="off"
+                 placeholder="Ask about my work" aria-label="Ask about my work">
+          <button type="submit" class="send-btn" id="chat-send">
+            Ask
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </form>
+
+        <p class="chat-note">Answers come from <code>/llms.txt</code> only. It can still get things wrong, so email me if it matters.</p>
+      </div>
+
       <div class="ai-links">
         <a href="https://chatgpt.com/?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
           <svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
@@ -1290,6 +1432,124 @@
         document.querySelectorAll('#stack .pill').forEach(function (pill) {
           pill.hidden = !matches(pill);
         });
+      });
+    });
+  })();
+
+  /* ---- assistant ----
+     Paste your Cloud Run URL here (no trailing slash) to switch the chat on,
+     e.g. "https://portfolio-assistant-xxxxx-uw.a.run.app". Left empty, the
+     panel stays hidden and the ChatGPT / Claude / Perplexity links stand in. */
+  const ASSISTANT_ENDPOINT = "";
+
+  (function () {
+    if (!ASSISTANT_ENDPOINT) return;
+
+    const panel = document.getElementById('assistant');
+    const log = document.getElementById('chat-log');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-text');
+    const sendBtn = document.getElementById('chat-send');
+    const suggest = document.getElementById('chat-suggest');
+    if (!panel) return;
+
+    panel.hidden = false;
+    const history = [];
+    let busy = false;
+
+    function add(cls, text) {
+      const el = document.createElement('div');
+      el.className = 'msg ' + cls;
+      el.textContent = text || '';
+      log.appendChild(el);
+      log.classList.add('active');
+      log.scrollTop = log.scrollHeight;
+      return el;
+    }
+
+    async function ask(question) {
+      if (busy || !question.trim()) return;
+      busy = true;
+      sendBtn.disabled = true;
+      input.value = '';
+      if (suggest) suggest.hidden = true;
+
+      add('user', question);
+      history.push({ role: 'user', content: question });
+
+      const bot = add('bot', '');
+      const caret = document.createElement('span');
+      caret.className = 'caret';
+      bot.appendChild(caret);
+
+      let answer = '';
+      try {
+        const res = await fetch(ASSISTANT_ENDPOINT + '/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history })
+        });
+        if (!res.ok || !res.body) throw new Error('bad response');
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split('\n\n');
+          buf = parts.pop();
+
+          for (const part of parts) {
+            const line = part.trim();
+            if (!line.startsWith('data:')) continue;
+            let evt;
+            try { evt = JSON.parse(line.slice(5).trim()); } catch (e) { continue; }
+
+            if (evt.type === 'delta') {
+              answer += evt.text;
+              bot.textContent = answer;
+              bot.appendChild(caret);
+              log.scrollTop = log.scrollHeight;
+            } else if (evt.type === 'error') {
+              bot.classList.add('err');
+              bot.textContent = evt.message;
+              answer = '';
+            }
+          }
+        }
+      } catch (err) {
+        bot.classList.add('err');
+        bot.textContent = "Couldn't reach the assistant. The contact form below always works.";
+        answer = '';
+      } finally {
+        caret.remove();
+        if (answer) history.push({ role: 'assistant', content: answer });
+        else history.pop();
+        busy = false;
+        sendBtn.disabled = false;
+        input.focus();
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ask(input.value);
+    });
+
+    if (suggest) {
+      suggest.addEventListener('click', function (e) {
+        const btn = e.target.closest('.suggest');
+        if (btn) ask(btn.textContent.trim());
+      });
+    }
+
+    // the hero button and the dock item should land in the input
+    document.querySelectorAll('a[href="#ask-ai"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        setTimeout(function () { input.focus({ preventScroll: true }); }, 450);
       });
     });
   })();
