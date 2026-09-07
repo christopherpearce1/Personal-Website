@@ -35,7 +35,18 @@ gcloud services enable run.googleapis.com secretmanager.googleapis.com \
 printf 'sk-ant-YOUR-KEY' | gcloud secrets create anthropic-key --data-file=-
 ```
 
-**4. Deploy:**
+**4. Let Cloud Run read the secret.** The runtime service account needs
+`secretAccessor` on it, or the deploy fails at the last step with
+"Permission denied on secret":
+
+```bash
+PROJECT_NUM=$(gcloud projects describe $(gcloud config get-value project) --format='value(projectNumber)')
+gcloud secrets add-iam-policy-binding anthropic-key \
+  --member="serviceAccount:${PROJECT_NUM}-compute@developer.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+```
+
+**5. Deploy:**
 
 ```bash
 cd assistant
@@ -54,7 +65,7 @@ gcloud run deploy portfolio-assistant \
 if someone hammers it. `--min-instances 0` means you pay nothing while idle, at
 the cost of a ~2s cold start on the first question after a quiet spell.
 
-**5. Wire up the site.** The deploy prints a service URL. Paste it into
+**6. Wire up the site.** The deploy prints a service URL. Paste it into
 `ASSISTANT_ENDPOINT` near the bottom of `index.html`:
 
 ```js
@@ -64,7 +75,7 @@ const ASSISTANT_ENDPOINT = "https://portfolio-assistant-xxxxx-uw.a.run.app";
 Empty string = widget stays hidden and the ChatGPT/Claude/Perplexity links act
 as the fallback. Non-empty = chat panel appears. Nothing else to toggle.
 
-**6. Verify:**
+**7. Verify:**
 
 ```bash
 curl https://YOUR-SERVICE-URL/health
