@@ -632,31 +632,120 @@
 
   .ai-ic { width: 16px; height: 16px; flex-shrink: 0; }
 
-  /* ---------- assistant ---------- */
-  .assistant {
-    margin-top: 24px;
+  /* ---------- assistant widget ---------- */
+  .aw { position: fixed; right: 24px; bottom: 24px; z-index: 60; }
+  .aw[hidden] { display: none; }
+
+  .aw-launch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 46px;
+    padding: 0 18px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--ink);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .aw-launch:hover { background: #fff; transform: translateY(-1px); }
+  .aw-launch svg { width: 17px; height: 17px; }
+  .aw-launch .aw-ico-close { display: none; }
+
+  .aw.open .aw-launch { height: 44px; width: 44px; padding: 0; justify-content: center; }
+  .aw.open .aw-launch .aw-ico-open,
+  .aw.open .aw-launch .aw-label { display: none; }
+  .aw.open .aw-launch .aw-ico-close { display: block; }
+
+  .aw-panel {
+    position: absolute;
+    right: 0;
+    bottom: 58px;
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    max-height: min(560px, calc(100vh - 150px));
     border: 1px solid var(--line);
     border-radius: 16px;
-    padding: 6px;
     background: var(--raised);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: awIn 0.16s ease-out;
   }
 
-  .chat-log {
-    display: none;
+  .aw-panel[hidden] { display: none; }
+
+  @keyframes awIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .aw-panel { animation: none; } }
+
+  .aw-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 12px 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aw-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink);
+  }
+
+  .aw-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6cc98b;
+    flex-shrink: 0;
+  }
+
+  .aw-min {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .aw-min:hover { color: var(--ink); background: rgba(255, 255, 255, 0.06); }
+  .aw-min svg { width: 16px; height: 16px; }
+
+  .aw-log {
+    display: flex;
     flex-direction: column;
     gap: 14px;
-    max-height: 340px;
+    flex: 1;
+    min-height: 120px;
     overflow-y: auto;
     padding: 16px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--bg);
-    margin-bottom: 6px;
   }
 
-  .chat-log.active { display: flex; }
-
   .msg { font-size: 0.9375rem; line-height: 1.6; }
+  .msg.bot { color: var(--muted); white-space: pre-wrap; }
+  .msg.bot.err { color: #e08585; }
+  .aw-greet { color: var(--faint); }
 
   .msg.user {
     align-self: flex-end;
@@ -671,9 +760,6 @@
     padding: 7px 11px;
   }
 
-  .msg.bot { color: var(--muted); white-space: pre-wrap; }
-  .msg.bot.err { color: #e08585; }
-
   .msg.bot .caret {
     display: inline-block;
     width: 7px;
@@ -686,13 +772,13 @@
 
   @keyframes blink { to { visibility: hidden; } }
 
-  .chat-suggest[hidden] { display: none; }
+  .aw-suggest[hidden] { display: none; }
 
-  .chat-suggest {
+  .aw-suggest {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    padding: 10px 10px 4px;
+    padding: 0 12px 10px;
   }
 
   .suggest {
@@ -711,13 +797,13 @@
 
   .suggest:hover { color: var(--ink); border-color: var(--muted); }
 
-  .chat-form {
+  .aw-form {
     display: flex;
     gap: 8px;
-    padding: 6px 10px 10px;
+    padding: 0 12px 8px;
   }
 
-  .chat-form input {
+  .aw-form input {
     flex: 1;
     min-width: 0;
     font-family: var(--serif);
@@ -731,19 +817,38 @@
     transition: border-color 0.15s ease;
   }
 
-  .chat-form input::placeholder { color: var(--faint); }
-  .chat-form input:focus { outline: none; border-color: var(--muted); }
+  .aw-form input::placeholder { color: var(--faint); }
+  .aw-form input:focus { outline: none; border-color: var(--muted); }
 
-  .chat-note {
+  .aw-send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    color: var(--bg);
+    background: var(--ink);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .aw-send:hover { background: #fff; }
+  .aw-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  .aw-send svg { width: 15px; height: 15px; }
+
+  .aw-note {
     font-family: var(--mono);
     font-size: 0.625rem;
     line-height: 1.6;
     color: var(--faint);
     margin: 0;
-    padding: 0 10px 8px;
+    padding: 0 12px 12px;
   }
 
-  .chat-note code {
+  .aw-note code {
     font-size: 1em;
     color: var(--muted);
     border: 1px solid var(--line);
@@ -926,7 +1031,8 @@
     z-index: 50;
   }
 
-  .dock a {
+  .dock a,
+  .dock button {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -940,10 +1046,22 @@
     transition: color 0.15s ease, background 0.15s ease;
   }
 
-  .dock a:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
-  .dock a.accent { color: var(--accent); }
-  .dock a.accent:hover { color: var(--accent); background: rgba(217, 154, 91, 0.1); }
+  .dock button {
+    font-family: var(--mono);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dock button[hidden] { display: none; }
+  .dock a:hover,
+  .dock button:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
+  .dock a.accent,
+  .dock button.accent { color: var(--accent); }
+  .dock a.accent:hover,
+  .dock button.accent:hover { color: var(--accent); background: rgba(217, 154, 91, 0.1); }
   .dock svg { width: 16px; height: 16px; }
+  .btn[hidden] { display: none; }
 
   /* ---------- reveal on scroll (fade only, never blurred) ---------- */
   html.js .reveal {
@@ -993,6 +1111,17 @@
     .filter { font-size: 0.8rem; letter-spacing: 0.16em; }
     .card-meta { white-space: normal; }
     body { padding-bottom: 104px; }
+
+    /* keep the launcher clear of the dock, which is centred at the bottom */
+    .aw { right: 16px; bottom: 96px; }
+    .aw-panel {
+      position: fixed;
+      right: 12px;
+      left: 12px;
+      bottom: 152px;
+      width: auto;
+      max-height: calc(100vh - 220px);
+    }
   }
 
 </style>
@@ -1032,10 +1161,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
           Resume
         </a>
-        <a class="btn primary" href="#ask-ai">
+        <button type="button" class="btn primary" data-assistant hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
           AI Assistant
-        </a>
+        </button>
       </div>
     </header>
 
@@ -1262,54 +1391,6 @@
       </div>
     </section>
 
-    <!-- ================= ASK AN AI ================= -->
-    <section id="ask-ai" class="reveal">
-      <p class="label">AI Assistant</p>
-      <p class="ai-intro">
-        An assistant that answers questions about my work directly on this page is in progress.
-        Until it ships, everything here is published as plain text at <code>/llms.txt</code>, so the
-        answers come from what I actually wrote, not from whatever a model happens to recall about
-        someone with my name.
-      </p>
-      <!-- Chat panel. Stays hidden until ASSISTANT_ENDPOINT is set in the script
-           at the bottom of this file; until then the links below are the fallback. -->
-      <div class="assistant" id="assistant" hidden>
-        <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-label="Assistant conversation"></div>
-
-        <div class="chat-suggest" id="chat-suggest">
-          <button type="button" class="suggest">What has he built with LLMs?</button>
-          <button type="button" class="suggest">Does he have backend experience?</button>
-          <button type="button" class="suggest">Walk me through the CNN project.</button>
-        </div>
-
-        <form class="chat-form" id="chat-form">
-          <input id="chat-text" type="text" maxlength="600" autocomplete="off"
-                 placeholder="Ask about my work" aria-label="Ask about my work">
-          <button type="submit" class="send-btn" id="chat-send">
-            Ask
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          </button>
-        </form>
-
-        <p class="chat-note">Answers come from <code>/llms.txt</code> only. It can still get things wrong, so email me if it matters.</p>
-      </div>
-
-      <div class="ai-links">
-        <a href="https://chatgpt.com/?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
-          <svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-          ChatGPT
-        </a>
-        <a href="https://claude.ai/new?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
-          <svg class="ai-ic" style="color:#D97757" aria-hidden="true"><use href="#i-claude"></use></svg>
-          Claude
-        </a>
-        <a href="https://www.perplexity.ai/search/new?q=Please%20read%20https%3A%2F%2Fchristopherpearce1.github.io%2FPersonal-Website%2Fllms.txt%20and%20summarize%20who%20Chris%20is%2C%20what%20he%27s%20built%2C%20and%20his%20tech%20stack." target="_blank" rel="noopener">
-          <svg class="ai-ic" style="color:#1FB8CD" aria-hidden="true"><use href="#i-perplexity"></use></svg>
-          Perplexity
-        </a>
-      </div>
-    </section>
-
     <!-- ================= CONTACT ================= -->
     <section id="contact" class="reveal">
       <p class="label">Get in touch.</p>
@@ -1369,6 +1450,48 @@
   </div>
 </div>
 
+<!-- ================= ASSISTANT WIDGET =================
+     Floating launcher, bottom right. Hidden until ASSISTANT_ENDPOINT is set. -->
+<div class="aw" id="aw" hidden>
+  <div class="aw-panel" id="aw-panel" role="dialog" aria-label="Ask about Chris" aria-modal="false" hidden>
+    <div class="aw-head">
+      <div class="aw-title">
+        <span class="aw-dot"></span>
+        Ask about Chris
+      </div>
+      <button type="button" class="aw-min" id="aw-min" aria-label="Minimize chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="aw-log" id="aw-log" role="log" aria-live="polite">
+      <div class="msg bot aw-greet">Ask me anything about Chris's work, projects, or stack. I answer from what's published on this site.</div>
+    </div>
+
+    <div class="aw-suggest" id="aw-suggest">
+      <button type="button" class="suggest">What has he built with LLMs?</button>
+      <button type="button" class="suggest">Backend experience?</button>
+      <button type="button" class="suggest">Tell me about the CNN project.</button>
+    </div>
+
+    <form class="aw-form" id="aw-form">
+      <input id="aw-text" type="text" maxlength="600" autocomplete="off"
+             placeholder="Ask a question" aria-label="Ask a question about Chris">
+      <button type="submit" class="aw-send" id="aw-send" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </form>
+
+    <p class="aw-note">Answers come from <code>/llms.txt</code>. It can be wrong — email me if it matters.</p>
+  </div>
+
+  <button type="button" class="aw-launch" id="aw-launch" aria-expanded="false" aria-controls="aw-panel">
+    <svg class="aw-ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    <svg class="aw-ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    <span class="aw-label">Ask AI</span>
+  </button>
+</div>
+
 <!-- ================= DOCK ================= -->
 <nav class="dock" aria-label="Section navigation">
   <a href="#home">
@@ -1383,10 +1506,10 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
     Contact
   </a>
-  <a href="#ask-ai" class="accent">
+  <button type="button" class="accent" data-assistant hidden>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01"/></svg>
     Assistant
-  </a>
+  </button>
 </nav>
 
 <script>
@@ -1439,30 +1562,53 @@
   /* ---- assistant ----
      Paste your Cloud Run URL here (no trailing slash) to switch the chat on,
      e.g. "https://portfolio-assistant-xxxxx-uw.a.run.app". Left empty, the
-     panel stays hidden and the ChatGPT / Claude / Perplexity links stand in. */
+     launcher stays hidden and the ChatGPT / Claude / Perplexity links stand in. */
   const ASSISTANT_ENDPOINT = "https://portfolio-assistant-1041567578435.us-west1.run.app";
 
   (function () {
     if (!ASSISTANT_ENDPOINT) return;
 
-    const panel = document.getElementById('assistant');
-    const log = document.getElementById('chat-log');
-    const form = document.getElementById('chat-form');
-    const input = document.getElementById('chat-text');
-    const sendBtn = document.getElementById('chat-send');
-    const suggest = document.getElementById('chat-suggest');
-    if (!panel) return;
+    const wrap = document.getElementById('aw');
+    const panel = document.getElementById('aw-panel');
+    const launch = document.getElementById('aw-launch');
+    const minimise = document.getElementById('aw-min');
+    const log = document.getElementById('aw-log');
+    const form = document.getElementById('aw-form');
+    const input = document.getElementById('aw-text');
+    const sendBtn = document.getElementById('aw-send');
+    const suggest = document.getElementById('aw-suggest');
+    if (!wrap) return;
 
-    panel.hidden = false;
+    wrap.hidden = false;
+
     const history = [];
     let busy = false;
+
+    function setOpen(open) {
+      wrap.classList.toggle('open', open);
+      panel.hidden = !open;
+      launch.setAttribute('aria-expanded', String(open));
+      launch.setAttribute('aria-label', open ? 'Minimize chat' : 'Ask about Chris');
+      if (open) {
+        input.focus();
+        log.scrollTop = log.scrollHeight;
+      } else {
+        launch.focus();
+      }
+    }
+
+    launch.addEventListener('click', function () { setOpen(panel.hidden); });
+    minimise.addEventListener('click', function () { setOpen(false); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) setOpen(false);
+    });
 
     function add(cls, text) {
       const el = document.createElement('div');
       el.className = 'msg ' + cls;
       el.textContent = text || '';
       log.appendChild(el);
-      log.classList.add('active');
       log.scrollTop = log.scrollHeight;
       return el;
     }
@@ -1473,6 +1619,8 @@
       sendBtn.disabled = true;
       input.value = '';
       if (suggest) suggest.hidden = true;
+      const greet = log.querySelector('.aw-greet');
+      if (greet) greet.remove();
 
       add('user', question);
       history.push({ role: 'user', content: question });
@@ -1522,7 +1670,7 @@
         }
       } catch (err) {
         bot.classList.add('err');
-        bot.textContent = "Couldn't reach the assistant. The contact form below always works.";
+        bot.textContent = "Couldn't reach the assistant. The contact form always works.";
         answer = '';
       } finally {
         caret.remove();
@@ -1546,11 +1694,11 @@
       });
     }
 
-    // the hero button and the dock item should land in the input
-    document.querySelectorAll('a[href="#ask-ai"]').forEach(function (a) {
-      a.addEventListener('click', function () {
-        setTimeout(function () { input.focus({ preventScroll: true }); }, 450);
-      });
+    // the hero button and dock item ship hidden and only appear once the
+    // endpoint is configured, so they never sit there doing nothing
+    document.querySelectorAll('[data-assistant]').forEach(function (el) {
+      el.hidden = false;
+      el.addEventListener('click', function () { setOpen(true); });
     });
   })();
 
